@@ -56,7 +56,7 @@ var blocks = {
                     bird.velocity = -bird.velocity / 4;
                     score++;
                 } else {
-                    currentstate = states.Score;
+                    game.state = states.Score;
                 }
             } else if (b.y < -100) {
                 this._blocks.splice(i, 1);
@@ -72,4 +72,4 @@ var blocks = {
             b.sprite.draw(ctx, b.x - s_medals.Silver.width / 2, b.y - s_medals.Silver.height);
         }
     }
-}
+};
