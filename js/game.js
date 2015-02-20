@@ -129,12 +129,12 @@ var game = {
         s_bg.draw(ctx, 0, canvas.height - s_bg.height);
         s_bg.draw(ctx, s_bg.width, canvas.height - s_bg.height);
 
-        blocks.draw(ctx);
-        bird.draw(ctx);
-
         // draw forground sprites
         s_fg.draw(ctx, 0, canvas.height - s_fg.height);
         s_fg.draw(ctx, s_fg.width, canvas.height - s_fg.height);
+
+        blocks.draw(ctx);
+        bird.draw(ctx);
 
         var width2 = canvas.width/2; // center of canvas
 
