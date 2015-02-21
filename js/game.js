@@ -102,7 +102,7 @@ var Game = Class.extend({
             if (this.bird.y - block.y <= 12) {
                 if (block.enabled) {
                     block.y = this.bird.y - 12;
-                    if (this.bird.velocity <= 0) {
+                    if (!this.bird.onGround && this.bird.velocity <= 0) {
                         block.enabled = false;
                         block.gravity = 2;
                         if (Math.random() <= 0.5) {
