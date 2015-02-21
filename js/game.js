@@ -1,7 +1,5 @@
 var
     groundY = 0,
-    score = 0,
-    best = localStorage.getItem("best") || 0,
     okbtn;
 
 var States = {
@@ -13,6 +11,8 @@ var States = {
 var Game = Class.extend({
 
     state: 0,
+    score: 0,
+    best: 0,
 
     init: function() {
         var self = this;
@@ -28,6 +28,7 @@ var Game = Class.extend({
             switch (self.state) {
                 case States.Splash:
                     self.state = States.Game;
+                    self.bird.jump();
                     break;
                 case States.Game:
                     if (self.bird.onGround) {
@@ -44,7 +45,7 @@ var Game = Class.extend({
                         okbtn.y < my && my < okbtn.y + okbtn.height
                     ) {
                         self.blocks = new Blocks();
-                        score = 0;
+                        self.score = 0;
                         self.state = States.Splash;
                     }
                     break;
@@ -55,6 +56,9 @@ var Game = Class.extend({
 
         this.bird = new Bird();
         this.blocks = new Blocks();
+
+        this.score = 0;
+        this.best = localStorage.getItem("best") || 0;
 
         this.state = States.Splash;
 
@@ -79,9 +83,8 @@ var Game = Class.extend({
 
     update: function() {
         if (this.state === States.Score) {
-            // set best score to maximum score
-            best = Math.max(best, score);
-            localStorage.setItem("best", best);
+            this.best = Math.max(this.best, this.score);
+            localStorage.setItem("best", this.best);
         }
         if (this.state === States.Game) {
             this.blocks.update();
@@ -110,7 +113,7 @@ var Game = Class.extend({
                         block.velocityY = -20;
                         this.bird.y = block.y;
                         this.bird.velocity = -this.bird.velocity / 4;
-                        score++;
+                        this.score++;
                     } else {
                         game.state = States.Score;
                     }
@@ -146,10 +149,10 @@ var Game = Class.extend({
             s_text.GameOver.draw(ctx, width2 - s_text.GameOver.width/2, this.canvas.height - 400);
             s_score.draw(ctx, width2 - s_score.width/2, this.canvas.height - 340);
             s_buttons.Ok.draw(ctx, okbtn.x, okbtn.y);
-            s_numberS.draw(ctx, width2-47, this.canvas.height-304, score, null, 10);
-            s_numberS.draw(ctx, width2-47, this.canvas.height-262, best, null, 10);
+            s_numberS.draw(ctx, width2-47, this.canvas.height-304, this.score, null, 10);
+            s_numberS.draw(ctx, width2-47, this.canvas.height-262, this.best, null, 10);
         } else {
-            s_numberB.draw(ctx, null, 20, score, width2);
+            s_numberB.draw(ctx, null, 20, this.score, width2);
         }
     },
 

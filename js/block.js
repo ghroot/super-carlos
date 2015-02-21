@@ -7,11 +7,13 @@ var Block = Class.extend({
     velocityX: 0,
     velocityY: 0,
 
-    init: function(x, y, sprite, gravity) {
+    init: function(x, y, sprite, gravity, velocityX, velocityY) {
         this.x = x;
         this.y = y;
         this.sprite = sprite;
         this.gravity = gravity;
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
     },
 
     update: function() {
