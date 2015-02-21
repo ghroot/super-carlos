@@ -1,93 +1,46 @@
-var blocks = {
-    _blocks: [],
+var Blocks = Class.extend({
+    frames: 0,
+    blocks: [],
     nextCreateFrame: 100,
 
-    reset: function() {
-        this._blocks = [];
+    init: function() {
+        this.blocks = [];
     },
 
     update: function() {
-        if (frames >= this.nextCreateFrame) {
+        for (var i = 0, len = this.blocks.length; i < len; i++) {
+            var block = this.blocks[i];
+            block.update();
+        }
+        this.frames++;
+        if (this.frames >= this.nextCreateFrame) {
             var type = Math.floor(Math.random() * 3);
+            var block;
             if (type == 0)
             {
-                this._blocks.push({
-                    x: 160,
-                    y: 0,
-                    enabled: true,
-                    sprite: s_medals.Gold,
-                    gravity: 0.1,
-                    velocityX: 0,
-                    velocityY: 0
-                });
+                block = new Block(160, 0, s_medals.Gold, 0.1);
             }
             else if (type == 1)
             {
-                this._blocks.push({
-                    x: 160,
-                    y: 0,
-                    enabled: true,
-                    sprite: s_medals.Silver,
-                    gravity: 0.066,
-                    velocityX: 0,
-                    velocityY: 0
-                });
+                block = new Block(160, 0, s_medals.Silver, 0.066);
             }
             else
             {
-                this._blocks.push({
-                    x: 160,
-                    y: 0,
-                    enabled: true,
-                    sprite: s_medals.Bronze,
-                    gravity: 0.033,
-                    velocityX: 0,
-                    velocityY: 0
-                });
+                block = new Block(160, 0, s_medals.Bronze, 0.033);
             }
-            this.nextCreateFrame = frames + 20 + Math.random() * 60;
-        }
-        for (var i = 0, len = this._blocks.length; i < len; i++) {
-            var b = this._blocks[i];
-
-            b.velocityY += b.gravity;
-            b.x += b.velocityX;
-            b.y += b.velocityY;
-
-            if (bird.y - b.y <= 14) {
-                if (b.enabled) {
-                    if (bird.velocity < 0) {
-                        b.enabled = false;
-                        b.gravity = 2;
-                        if (Math.random() <= 0.5) {
-                            b.velocityX = 4 + Math.random() * 2;
-                        } else {
-                            b.velocityX = -4 - Math.random() * 2;
-                        }
-                        b.velocityY = bird.velocity;
-                        bird.y = b.y;
-                        bird.velocity = -bird.velocity / 4;
-                        score++;
-                    } else {
-                        game.state = states.Score;
-                    }
-                }
-            } else if (b.y < -100) {
-                this._blocks.splice(i, 1);
-                i--;
-                len--;
-            }
+            this.blocks.push(block);
+            this.nextCreateFrame = this.frames + 20 + Math.random() * 60;
         }
     },
 
     draw: function(ctx) {
-        for (var i = 0, len = this._blocks.length; i < len; i++) {
-            var b = this._blocks[i];
-            if (!b.enabled) {
-                canvas.ctx.globalAlpha = 0.5;
+        for (var i = 0, len = this.blocks.length; i < len; i++) {
+            var block = this.blocks[i];
+            if (!block.enabled) {
+                ctx.globalAlpha = 0.5;
             }
-            b.sprite.draw(ctx, b.x - s_medals.Silver.width / 2, b.y - s_medals.Silver.height);
-            canvas.ctx.globalAlpha = 1;
+            block.sprite.draw(ctx, block.x - s_medals.Silver.width / 2, block.y - s_medals.Silver.height);
+            ctx.globalAlpha = 1;
         }
     }
-};
+});

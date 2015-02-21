@@ -1,13 +1,14 @@
-var bird = {
-
+var Bird = Class.extend({
     x: 160,
     y: 0,
     frame: 0,
     velocity: 0,
-    radius: 12,
     onGround: true,
     gravity: 2,
     jumpSpeed: 32,
+
+    init: function() {
+    },
 
     jump: function() {
         this.velocity = -this.jumpSpeed;
@@ -15,7 +16,7 @@ var bird = {
     },
 
     update: function() {
-        if (game.state === states.Splash) {
+        if (game.state === States.Splash) {
             this.y = groundY;
             this.onGround = true;
         } else {
@@ -44,4 +45,4 @@ var bird = {
         s_bird[this.frame].draw(ctx, -s_bird[this.frame].width / 2, -s_bird[this.frame].height / 2);
         ctx.restore();
     }
-};
+});
