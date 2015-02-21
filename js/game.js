@@ -1,5 +1,3 @@
-var okbtn;
-
 var States = {
     Splash: 0,
     Game: 1,
@@ -12,6 +10,7 @@ var Game = Class.extend({
     score: 0,
     best: 0,
     groundY: 0,
+    okButton: null,
 
     init: function() {
         var self = this;
@@ -40,8 +39,8 @@ var Game = Class.extend({
                         mx = evt.touches[0].clientX;
                         my = evt.touches[0].clientY;
                     }
-                    if (okbtn.x < mx && mx < okbtn.x + okbtn.width &&
-                        okbtn.y < my && my < okbtn.y + okbtn.height
+                    if (self.okButton.x < mx && mx < self.okButton.x + self.okButton.width &&
+                        self.okButton.y < my && my < self.okButton.y + self.okButton.height
                     ) {
                         self.blocks = new Blocks();
                         self.score = 0;
@@ -67,7 +66,7 @@ var Game = Class.extend({
             self.bird = new Bird(160, self.groundY);
             self.blocks = new Blocks();
 
-            okbtn = {
+            self.okButton = {
                 x: (self.canvas.width - s_buttons.Ok.width) / 2,
                 y: height - 200,
                 width: s_buttons.Ok.width,
@@ -153,11 +152,11 @@ var Game = Class.extend({
             s_splash.draw(ctx, width2 - s_splash.width/2, Math.round(this.canvas.height * 0.4));
         }
         if (this.state === States.Score) {
-            s_text.GameOver.draw(ctx, width2 - s_text.GameOver.width/2, this.canvas.height - 400);
-            s_score.draw(ctx, width2 - s_score.width/2, this.canvas.height - 340);
-            s_buttons.Ok.draw(ctx, okbtn.x, okbtn.y);
-            s_numberS.draw(ctx, width2-47, this.canvas.height-304, this.score, null, 10);
-            s_numberS.draw(ctx, width2-47, this.canvas.height-262, this.best, null, 10);
+            s_text.GameOver.draw(ctx, width2 - s_text.GameOver.width / 2, this.canvas.height - 400);
+            s_score.draw(ctx, width2 - s_score.width / 2, this.canvas.height - 340);
+            s_buttons.Ok.draw(ctx, this.okButton.x, this.okButton.y);
+            s_numberS.draw(ctx, width2 - 47, this.canvas.height - 304, this.score, null, 10);
+            s_numberS.draw(ctx, width2 - 47, this.canvas.height - 262, this.best, null, 10);
         } else {
             s_numberB.draw(ctx, null, 20, this.score, width2);
         }
