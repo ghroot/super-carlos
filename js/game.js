@@ -1,6 +1,4 @@
-var
-    groundY = 0,
-    okbtn;
+var okbtn;
 
 var States = {
     Splash: 0,
@@ -13,6 +11,7 @@ var Game = Class.extend({
     state: 0,
     score: 0,
     best: 0,
+    groundY: 0,
 
     init: function() {
         var self = this;
@@ -54,9 +53,6 @@ var Game = Class.extend({
 
         this.canvas = new Canvas(width, height);
 
-        this.bird = new Bird();
-        this.blocks = new Blocks();
-
         this.score = 0;
         this.best = localStorage.getItem("best") || 0;
 
@@ -65,12 +61,14 @@ var Game = Class.extend({
         var img = new Image();
         img.onload = function() {
             initSprites(this);
-            self.canvas.ctx.fillStyle = s_bg.color;
 
-            groundY = height - s_fg.height-10;
+            self.groundY = height * 0.66;
+
+            self.bird = new Bird(160, self.groundY);
+            self.blocks = new Blocks();
 
             okbtn = {
-                x: (self.canvas.width - s_buttons.Ok.width)/2,
+                x: (self.canvas.width - s_buttons.Ok.width) / 2,
                 y: height - 200,
                 width: s_buttons.Ok.width,
                 height: s_buttons.Ok.height
@@ -90,7 +88,9 @@ var Game = Class.extend({
             this.blocks.update();
         }
 
-        this.bird.update();
+        if (this.bird) {
+            this.bird.update();
+        }
 
         if (this.state === States.Game) {
             this.checkCollisions();
@@ -127,23 +127,30 @@ var Game = Class.extend({
     },
 
     render: function(ctx) {
-        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        ctx.fillStyle = "#70c5cf";
+        ctx.fillRect(0, 0, this.canvas.width, this.groundY);
 
-        s_bg.draw(ctx, 0, this.canvas.height - s_bg.height);
-        s_bg.draw(ctx, s_bg.width, this.canvas.height - s_bg.height);
+        s_bg.draw(ctx, 0, this.groundY - s_bg.height + 30);
+        s_bg.draw(ctx, s_bg.width, this.groundY - s_bg.height + 30);
 
-        s_fg.draw(ctx, 0, this.canvas.height - s_fg.height);
-        s_fg.draw(ctx, s_fg.width, this.canvas.height - s_fg.height);
+        s_fg.draw(ctx, 0, this.groundY + 10);
+        s_fg.draw(ctx, s_fg.width, this.groundY + 10);
 
-        this.blocks.draw(ctx);
-        this.bird.draw(ctx);
+        ctx.fillStyle = "#ded798";
+        ctx.fillRect(0, this.groundY + s_fg.height - 1, this.canvas.width, this.canvas.height);
+
+        if (this.blocks) {
+            this.blocks.draw(ctx);
+        }
+        if (this.bird) {
+            this.bird.draw(ctx);
+        }
 
         var width2 = this.canvas.width / 2;
 
         if (this.state === States.Splash) {
-            s_splash.draw(ctx, width2 - s_splash.width/2, this.canvas.height - 300);
-            s_text.GetReady.draw(ctx, width2 - s_text.GetReady.width/2, this.canvas.height - 380);
-
+            s_text.GetReady.draw(ctx, width2 - s_text.GetReady.width / 2, Math.round(this.canvas.height * 0.25));
+            s_splash.draw(ctx, width2 - s_splash.width/2, Math.round(this.canvas.height * 0.4));
         }
         if (this.state === States.Score) {
             s_text.GameOver.draw(ctx, width2 - s_text.GameOver.width/2, this.canvas.height - 400);

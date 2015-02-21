@@ -1,13 +1,16 @@
 var Bird = Class.extend({
-    x: 160,
+    x: 0,
     y: 0,
+    groundY: 0,
     frame: 0,
     velocity: 0,
     onGround: true,
     gravity: 2,
     jumpSpeed: 32,
 
-    init: function() {
+    init: function(x, groundY) {
+        this.x = x;
+        this.groundY = groundY;
     },
 
     jump: function() {
@@ -17,14 +20,14 @@ var Bird = Class.extend({
 
     update: function() {
         if (game.state === States.Splash) {
-            this.y = groundY;
+            this.y = this.groundY;
             this.onGround = true;
         } else {
             this.velocity += this.gravity;
             this.y += this.velocity;
 
-            if (this.y >= groundY) {
-                this.y = groundY;
+            if (this.y >= this.groundY) {
+                this.y = this.groundY;
                 this.onGround = true;
                 this.velocity = 0;
             }
