@@ -107,8 +107,10 @@ var Game = Class.extend({
                         block.gravity = 2;
                         if (Math.random() <= 0.5) {
                             block.velocityX = 4 + Math.random() * 2;
+                            block.rotationSpeed = 5;
                         } else {
                             block.velocityX = -4 - Math.random() * 2;
+                            block.rotationSpeed = -5;
                         }
                         block.velocityY = -20;
                         this.bird.y = block.y;
@@ -133,11 +135,12 @@ var Game = Class.extend({
         s_bg.draw(ctx, 0, this.groundY - s_bg.height + 30);
         s_bg.draw(ctx, s_bg.width, this.groundY - s_bg.height + 30);
 
+        s_fg.draw(ctx, 0, this.groundY + 180);
+        s_fg.draw(ctx, s_fg.width, this.groundY + 180);
+        s_fg.draw(ctx, 0, this.groundY + 100);
+        s_fg.draw(ctx, s_fg.width, this.groundY + 100);
         s_fg.draw(ctx, 0, this.groundY + 10);
         s_fg.draw(ctx, s_fg.width, this.groundY + 10);
-
-        ctx.fillStyle = "#ded798";
-        ctx.fillRect(0, this.groundY + s_fg.height - 1, this.canvas.width, this.canvas.height);
 
         if (this.blocks) {
             this.blocks.draw(ctx);

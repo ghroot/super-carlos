@@ -6,7 +6,7 @@ var Bird = Class.extend({
     velocity: 0,
     onGround: true,
     gravity: 2,
-    jumpSpeed: 32,
+    jumpSpeed: 30,
 
     init: function(x, groundY) {
         this.x = x;

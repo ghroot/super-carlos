@@ -43,11 +43,14 @@ var Blocks = Class.extend({
     draw: function(ctx) {
         for (var i = 0, len = this.blocks.length; i < len; i++) {
             var block = this.blocks[i];
+            ctx.save();
             if (!block.enabled) {
                 ctx.globalAlpha = 0.5;
             }
-            block.sprite.draw(ctx, block.x - s_medals.Silver.width / 2, block.y - s_medals.Silver.height);
-            ctx.globalAlpha = 1;
+            ctx.translate(block.x, block.y);
+            ctx.rotate(block.rotation * Math.PI/180);
+            block.sprite.draw(ctx, -block.sprite.width / 2, -block.sprite.height);
+            ctx.restore();
         }
     }
 });

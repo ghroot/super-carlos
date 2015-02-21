@@ -3,6 +3,8 @@ var Block = Class.extend({
     y: 0,
     enabled: true,
     sprite: null,
+    rotation: 0,
+    rotationSpeed: 0,
     gravity: 0,
     velocityX: 0,
     velocityY: 0,
@@ -20,5 +22,6 @@ var Block = Class.extend({
         this.velocityY += this.gravity;
         this.x += this.velocityX;
         this.y += this.velocityY;
+        this.rotation += this.rotationSpeed;
     }
 });
