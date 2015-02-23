@@ -25,7 +25,7 @@ var Blocks = Class.extend({
             var block;
             if (type == 0)
             {
-                block = new Block(this.blockX, 0, sprites.block_gold, 0.16, 0, 2);
+                block = new Block(this.blockX, 0, sprites.block_bronze, 0.02, 0, 0.5);
             }
             else if (type == 1)
             {
@@ -33,7 +33,7 @@ var Blocks = Class.extend({
             }
             else
             {
-                block = new Block(this.blockX, 0, sprites.block_bronze, 0.04, 0, 0.5);
+                block = new Block(this.blockX, 0, sprites.block_gold, 0.16, 0, 2);
             }
             this.blocks.push(block);
             this.nextCreateFrame = this.frames + 30 + Math.random() * 30;
