@@ -13,15 +13,7 @@ var Game = Class.extend({
 
     init: function() {
         var self = this;
-        var width = window.innerWidth;
-        var height = window.innerHeight;
-        var evt = "touchstart";
-        if (width >= 500) {
-            width  = 320;
-            height = 480;
-            evt = "mousedown";
-        }
-        document.addEventListener(evt, function(evt) {
+        document.addEventListener("touchstart", function(evt) {
             switch (self.state) {
                 case States.Splash:
                     self.state = States.Game;
@@ -33,11 +25,8 @@ var Game = Class.extend({
                     }
                     break;
                 case States.Score:
-                    var mx = evt.offsetX, my = evt.offsetY;
-                    if (mx == null || my == null) {
-                        mx = evt.touches[0].clientX;
-                        my = evt.touches[0].clientY;
-                    }
+                    var mx = evt.touches[0].clientX / self.canvas.scale;
+                    var my = evt.touches[0].clientY / self.canvas.scale;
                     if (self.okButton.x < mx && mx < self.okButton.x + self.okButton.width &&
                         self.okButton.y < my && my < self.okButton.y + self.okButton.height
                     ) {
@@ -50,18 +39,18 @@ var Game = Class.extend({
             }
         });
 
-        this.canvas = new Canvas(width, height);
+        this.canvas = new Canvas(320, window.innerHeight);
 
         this.score = 0;
         this.best = localStorage.getItem("best") || 0;
+
+        this.groundY = 400;
 
         this.state = States.Splash;
 
         var img = new Image();
         img.onload = function() {
             createSpritesFromAtlas(this, atlas);
-
-            self.groundY = height * 0.66;
 
             self.bird = new Bird(self.canvas.width / 2, self.groundY);
             self.blocks = new Blocks(self.canvas.width / 2);
@@ -127,8 +116,8 @@ var Game = Class.extend({
         sprites.background.draw(ctx, 0, this.groundY - sprites.background.height + 30);
         sprites.background.draw(ctx, sprites.background.width, this.groundY - sprites.background.height + 30);
 
-        sprites.foreground.draw(ctx, 0, this.groundY + 10);
-        sprites.foreground.draw(ctx, sprites.foreground.width, this.groundY + 10);
+        sprites.foreground.draw(ctx, 0, this.groundY);
+        sprites.foreground.draw(ctx, sprites.foreground.width, this.groundY);
 
         if (this.blocks) {
             this.blocks.draw(ctx);

@@ -12,12 +12,12 @@ var Bird = Class.extend({
         this.x = x;
         this.groundY = groundY;
         this.sprite = sprites.bird_2;
-        this.y = this.groundY;
+        this.y = this.groundY - 10;
         this.onGround = true;
     },
 
     reset: function() {
-        this.y = this.groundY;
+        this.y = this.groundY - 10;
         this.onGround = true;
     },
 
@@ -31,8 +31,8 @@ var Bird = Class.extend({
             this.velocity += this.gravity;
             this.y += this.velocity;
 
-            if (this.y >= this.groundY) {
-                this.y = this.groundY;
+            if (this.y >= this.groundY - 10) {
+                this.y = this.groundY - 10;
                 this.onGround = true;
                 this.velocity = 0;
             }
