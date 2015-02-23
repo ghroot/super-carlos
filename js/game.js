@@ -5,7 +5,6 @@ var States = {
 };
 
 var Game = Class.extend({
-
     state: 0,
     score: 0,
     best: 0,
@@ -43,6 +42,7 @@ var Game = Class.extend({
                         self.okButton.y < my && my < self.okButton.y + self.okButton.height
                     ) {
                         self.blocks.reset();
+                        self.bird.reset();
                         self.score = 0;
                         self.state = States.Splash;
                     }
@@ -59,7 +59,7 @@ var Game = Class.extend({
 
         var img = new Image();
         img.onload = function() {
-            initSprites(this);
+            createSpritesFromAtlas(this, atlas);
 
             self.groundY = height * 0.66;
 
@@ -67,31 +67,21 @@ var Game = Class.extend({
             self.blocks = new Blocks(self.canvas.width / 2);
 
             self.okButton = {
-                x: (self.canvas.width - s_buttons.Ok.width) / 2,
+                x: (self.canvas.width - sprites.button_ok.width) / 2,
                 y: Math.round(self.canvas.height * 0.75),
-                width: s_buttons.Ok.width,
-                height: s_buttons.Ok.height
+                width: sprites.button_ok.width,
+                height: sprites.button_ok.height
             };
 
             self.run();
         };
-        img.src = "resources/sheet.png";
+        img.src = "resources/atlas.png";
     },
 
     update: function() {
-        if (this.state === States.Score) {
-            this.best = Math.max(this.best, this.score);
-            localStorage.setItem("best", this.best);
-        }
         if (this.state === States.Game) {
             this.blocks.update();
-        }
-
-        if (this.bird) {
             this.bird.update();
-        }
-
-        if (this.state === States.Game) {
             this.checkCollisions();
         }
     },
@@ -117,6 +107,8 @@ var Game = Class.extend({
                         this.bird.velocity = -this.bird.velocity / 4;
                         this.score++;
                     } else {
+                        this.best = Math.max(this.best, this.score);
+                        localStorage.setItem("best", this.best);
                         game.state = States.Score;
                     }
                 }
@@ -132,15 +124,11 @@ var Game = Class.extend({
         ctx.fillStyle = "#70c5cf";
         ctx.fillRect(0, 0, this.canvas.width, this.groundY);
 
-        s_bg.draw(ctx, 0, this.groundY - s_bg.height + 30);
-        s_bg.draw(ctx, s_bg.width, this.groundY - s_bg.height + 30);
+        sprites.background.draw(ctx, 0, this.groundY - sprites.background.height + 30);
+        sprites.background.draw(ctx, sprites.background.width, this.groundY - sprites.background.height + 30);
 
-        s_fg.draw(ctx, 0, this.groundY + 180);
-        s_fg.draw(ctx, s_fg.width, this.groundY + 180);
-        s_fg.draw(ctx, 0, this.groundY + 100);
-        s_fg.draw(ctx, s_fg.width, this.groundY + 100);
-        s_fg.draw(ctx, 0, this.groundY + 10);
-        s_fg.draw(ctx, s_fg.width, this.groundY + 10);
+        sprites.foreground.draw(ctx, 0, this.groundY + 10);
+        sprites.foreground.draw(ctx, sprites.foreground.width, this.groundY + 10);
 
         if (this.blocks) {
             this.blocks.draw(ctx);
@@ -152,17 +140,17 @@ var Game = Class.extend({
         var width2 = this.canvas.width / 2;
 
         if (this.state === States.Splash) {
-            s_text.GetReady.draw(ctx, width2 - s_text.GetReady.width / 2, Math.round(this.canvas.height * 0.25));
-            s_splash.draw(ctx, width2 - s_splash.width/2, Math.round(this.canvas.height * 0.4));
+            sprites.title.draw(ctx, width2 - sprites.title.width / 2, Math.round(this.canvas.height * 0.25));
+            sprites.instructions.draw(ctx, width2 - sprites.instructions.width / 2, Math.round(this.canvas.height * 0.4));
         }
         if (this.state === States.Score) {
-            s_text.GameOver.draw(ctx, width2 - s_text.GameOver.width / 2, Math.round(this.canvas.height * 0.25));
-            s_score.draw(ctx, width2 - s_score.width / 2, Math.round(this.canvas.height * 0.35));
-            s_numberS.draw(ctx, width2 - 47, Math.round(this.canvas.height * 0.35) + 35, this.score, null, 10);
-            s_numberS.draw(ctx, width2 - 47, Math.round(this.canvas.height * 0.35) + 78, this.best, null, 10);
-            s_buttons.Ok.draw(ctx, this.okButton.x, this.okButton.y);
+            sprites.game_over.draw(ctx, width2 - sprites.game_over.width / 2, Math.round(this.canvas.height * 0.25));
+            sprites.score_pane.draw(ctx, width2 - sprites.score_pane.width / 2, Math.round(this.canvas.height * 0.35));
+            drawNumber(ctx, sprites.numbers_small, width2 - 47, Math.round(this.canvas.height * 0.35) + 35, this.score, null, 10);
+            drawNumber(ctx, sprites.numbers_small, width2 - 47, Math.round(this.canvas.height * 0.35) + 78, this.best, null, 10);
+            sprites.button_ok.draw(ctx, this.okButton.x, this.okButton.y);
         } else {
-            s_numberB.draw(ctx, null, 20, this.score, width2);
+            drawNumber(ctx, sprites.numbers_big, null, 20, this.score, width2);
         }
     },
 

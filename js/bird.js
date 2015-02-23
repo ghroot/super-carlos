@@ -2,7 +2,7 @@ var Bird = Class.extend({
     x: 0,
     y: 0,
     groundY: 0,
-    frame: 0,
+    sprite: null,
     velocity: 0,
     onGround: true,
     gravity: 2,
@@ -11,6 +11,14 @@ var Bird = Class.extend({
     init: function(x, groundY) {
         this.x = x;
         this.groundY = groundY;
+        this.sprite = sprites.bird_2;
+        this.y = this.groundY;
+        this.onGround = true;
+    },
+
+    reset: function() {
+        this.y = this.groundY;
+        this.onGround = true;
     },
 
     jump: function() {
@@ -19,10 +27,7 @@ var Bird = Class.extend({
     },
 
     update: function() {
-        if (game.state === States.Splash) {
-            this.y = this.groundY;
-            this.onGround = true;
-        } else {
+        if (game.state === States.Game) {
             this.velocity += this.gravity;
             this.y += this.velocity;
 
@@ -33,11 +38,11 @@ var Bird = Class.extend({
             }
 
             if (this.velocity > 0) {
-                this.frame = 0;
+                this.sprite = sprites.bird_1;
             } else if (this.velocity < 0) {
-                this.frame = 2;
+                this.sprite = sprites.bird_3;
             } else {
-                this.frame = 1;
+                this.sprite = sprites.bird_2;
             }
         }
     },
@@ -45,7 +50,7 @@ var Bird = Class.extend({
     draw: function(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
-        s_bird[this.frame].draw(ctx, -s_bird[this.frame].width / 2, -s_bird[this.frame].height / 2);
+        this.sprite.draw(ctx, -this.sprite.width / 2, -this.sprite.height / 2);
         ctx.restore();
     }
 });
