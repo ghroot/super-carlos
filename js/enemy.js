@@ -1,16 +1,14 @@
-var Block = GameObject.extend({
+var Enemy = GameObject.extend({
     enabled: true,
-    rotation: 0,
     rotationSpeed: 0,
     gravity: 0,
     velocityX: 0,
     velocityY: 0,
 
-    init: function(x, y, sprite, gravity, velocityX, velocityY) {
+    init: function(x, y, sprite, velocityX, rotationSpeed) {
         this._super(x, y, sprite);
-        this.gravity = gravity;
+        this.rotationSpeed = rotationSpeed;
         this.velocityX = velocityX;
-        this.velocityY = velocityY;
     },
 
     update: function() {

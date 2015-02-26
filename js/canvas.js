@@ -1,6 +1,6 @@
 var Canvas = Class.extend({
 
-    init: function(width, height) {
+    init: function(width, height, color) {
         this.canvas = document.createElement("canvas");
         this.canvas.width = width;
         this.canvas.height = height;
@@ -15,10 +15,8 @@ var Canvas = Class.extend({
         this.ctx = this.canvas.getContext("2d");
         document.body.appendChild(this.canvas);
 
-        console.log("Screen size: " + window.innerWidth + " x " + window.innerHeight);
-        console.log("Scale: " + scale);
-        console.log("Scaled size: " + this.canvas.style.width + " x " + this.canvas.style.height);
-        console.log("Game size: " + this.width + " x " + this.height);
+        this.stage = new PIXI.Stage(color);
+        this.renderer = new PIXI.CanvasRenderer(width, height, {view: this.canvas, clearBeforeRender: false});
     },
 
     animate: function(loop) {
@@ -35,6 +33,7 @@ var Canvas = Class.extend({
         })();
         var self = this;
         var l = function() {
+            self.renderer.render(self.stage);
             loop();
             rAF(l, self.canvas);
         };

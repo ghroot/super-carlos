@@ -36,7 +36,7 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>json-array</string>
+        <string>json</string>
         <key>textureFileName</key>
         <filename>../resources/atlas.png</filename>
         <key>flipPVR</key>
@@ -145,7 +145,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../js/atlas.js</filename>
+                <filename>../resources/atlas.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
