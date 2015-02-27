@@ -43,15 +43,14 @@ var ScoreState = Class.extend({
 
     enter: function() {
         this.scoreText.setText(game.score.toString());
-        this.scoreText.x = this.canvas.width / 2 + 88 - this.scoreText.textWidth;
         this.bestText.setText(game.best.toString());
-        this.bestText.x = this.canvas.width / 2 + 88 - this.bestText.textWidth;
         this.canvas.stage.addChild(this.scoreContainer);
         this.okButton.touchstart = this.onOkButtonTouch.bind(this);
     },
 
     update: function() {
-
+        this.scoreText.x = this.canvas.width / 2 + 88 - this.scoreText.textWidth;
+        this.bestText.x = this.canvas.width / 2 + 88 - this.bestText.textWidth;
     },
 
     exit: function() {
