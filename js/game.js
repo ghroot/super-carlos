@@ -65,7 +65,7 @@ var Game = Class.extend({
         for (var i = 0; i < this.enemies.enemies.length; i++) {
             this.enemies.enemies[i].updateSprite();
         }
-        for (var i = 0; i < this.blocks.blocks.length; i++) {
+        for (i = 0; i < this.blocks.blocks.length; i++) {
             this.blocks.blocks[i].updateSprite();
         }
         this.bird.updateSprite();

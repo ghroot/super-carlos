@@ -1,4 +1,5 @@
 var Block = GameObject.extend({
+
     enabled: true,
     rotation: 0,
     rotationSpeed: 0,

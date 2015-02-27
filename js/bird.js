@@ -1,4 +1,5 @@
 var Bird = GameObject.extend({
+
     groundY: 0,
     velocity: 0,
     gravity: 1.8,

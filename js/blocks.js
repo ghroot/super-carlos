@@ -28,11 +28,11 @@ var Blocks = Class.extend({
         if (this.frames >= this.nextCreateFrame) {
             var type = Math.floor(Math.random() * 3);
             var block;
-            if (type == 0)
+            if (type === 0)
             {
                 block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_bronze"), 0.02, 0, 1);
             }
-            else if (type == 1)
+            else if (type === 1)
             {
                 block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_silver"), 0.04, 0, 2.8);
             }

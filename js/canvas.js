@@ -29,7 +29,7 @@ var Canvas = Class.extend({
 
                 function(cb, el) {
                     window.setTimeout(cb, 1000 / 60);
-                }
+                };
         })();
         var self = this;
         var l = function() {

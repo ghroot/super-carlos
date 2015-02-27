@@ -65,7 +65,7 @@ var GameState = Class.extend({
                 len--;
             }
         }
-        for (var i = 0, len = this.enemies.enemies.length; i < len; i++) {
+        for (i = 0, len = this.enemies.enemies.length; i < len; i++) {
             var enemy = this.enemies.enemies[i];
             if (Math.abs(this.bird.x - enemy.x) <= 36 && this.game.groundY - this.bird.y <= 40) {
                 if (enemy.enabled) {

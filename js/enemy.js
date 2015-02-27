@@ -1,4 +1,5 @@
 var Enemy = GameObject.extend({
+
     enabled: true,
     rotationSpeed: 0,
     gravity: 0,
