@@ -43,7 +43,7 @@ var Blocks = Class.extend({
             this.blocks.push(block);
             block.sprite.anchor.x = 0.5;
             block.sprite.anchor.y = 0.5;
-            this.canvas.stage.addChild(block.sprite);
+            this.canvas.stage.addChildAt(block.sprite, 3);
             this.nextCreateFrame = this.frames + 30 + Math.random() * 30;
         }
     }

@@ -1,7 +1,7 @@
 var Game = Class.extend({
 
     score: 0,
-    best: localStorage.getItem("best") || 0,
+    best: 0,
     groundY: 400,
 
     init: function() {
@@ -9,7 +9,7 @@ var Game = Class.extend({
     },
 
     load: function() {
-        var loader = new PIXI.AssetLoader(["resources/atlas.json"]);
+        var loader = new PIXI.AssetLoader(["resources/atlas.json", "resources/numbers_big.fnt", "resources/numbers_small.fnt"]);
         loader.onComplete = this.start.bind(this);
         loader.load();
     },
@@ -30,6 +30,8 @@ var Game = Class.extend({
         var ground = new PIXI.TilingSprite(groundTexture, this.canvas.width, groundTexture.height);
         ground.y = this.groundY;
         this.canvas.stage.addChild(ground);
+
+        this.best = localStorage.getItem("best") || 0;
 
         this.bird = new Bird(this.canvas.width / 2, this.groundY);
         this.canvas.stage.addChild(this.bird.sprite);
@@ -67,15 +69,5 @@ var Game = Class.extend({
             this.blocks.blocks[i].updateSprite();
         }
         this.bird.updateSprite();
-    },
-
-    render: function(ctx) {
-        //if (this.state === States.Score) {
-        //    sprites.score_pane.draw(ctx, width2 - sprites.score_pane.width / 2, Math.round(this.canvas.height * 0.35));
-        //    drawNumber(ctx, sprites.numbers_small, width2 - 47, Math.round(this.canvas.height * 0.35) + 35, this.score, null, 10);
-        //    drawNumber(ctx, sprites.numbers_small, width2 - 47, Math.round(this.canvas.height * 0.35) + 78, this.best, null, 10);
-        //} else {
-        //    drawNumber(ctx, sprites.numbers_big, null, 20, this.score, width2);
-        //}
     }
 });

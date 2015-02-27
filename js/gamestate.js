@@ -6,6 +6,9 @@ var GameState = Class.extend({
         this.bird = game.bird;
         this.blocks = game.blocks;
         this.enemies = game.enemies;
+        this.scoreText = new PIXI.BitmapText("0", {font: "numbers_big"});
+        this.scoreText.x = Math.floor((this.canvas.width - this.scoreText.textWidth) / 2);
+        this.scoreText.y = 6;
     },
 
     onTouch: function(interactionData) {
@@ -13,6 +16,7 @@ var GameState = Class.extend({
     },
 
     enter: function() {
+        this.canvas.stage.addChild(this.scoreText);
         this.canvas.stage.touchstart = this.onTouch.bind(this);
         this.bird.jump();
     },
@@ -21,6 +25,8 @@ var GameState = Class.extend({
         this.blocks.update();
         this.enemies.update();
         this.bird.update();
+        this.scoreText.setText(this.game.score.toString());
+        this.scoreText.x = Math.floor((this.canvas.width - this.scoreText.textWidth) / 2);
         this.checkCollisions();
     },
 
@@ -48,7 +54,7 @@ var GameState = Class.extend({
                         this.game.score++;
                     } else {
                         this.game.best = Math.max(this.game.best, this.game.score);
-                        localStorage.setItem("best", this.best);
+                        localStorage.setItem("best", this.game.best);
                         this.game.changeState(this.game.scoreState);
                     }
                 }
@@ -86,6 +92,7 @@ var GameState = Class.extend({
     },
 
     exit: function() {
+        this.canvas.stage.removeChild(this.scoreText);
         this.canvas.stage.touchstart = null;
     }
 });

@@ -11,7 +11,7 @@
 },
 "bird_1":
 {
-	"frame": {"x":466,"y":378,"w":34,"h":24},
+	"frame": {"x":422,"y":262,"w":34,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":24},
@@ -20,7 +20,7 @@
 },
 "bird_2":
 {
-	"frame": {"x":466,"y":404,"w":34,"h":24},
+	"frame": {"x":458,"y":262,"w":34,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":24},
@@ -29,7 +29,7 @@
 },
 "bird_3":
 {
-	"frame": {"x":230,"y":346,"w":34,"h":24},
+	"frame": {"x":420,"y":288,"w":34,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":24},
@@ -38,7 +38,7 @@
 },
 "block_bronze":
 {
-	"frame": {"x":420,"y":378,"w":44,"h":44},
+	"frame": {"x":350,"y":318,"w":44,"h":44},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
@@ -47,7 +47,7 @@
 },
 "block_gold":
 {
-	"frame": {"x":230,"y":300,"w":44,"h":44},
+	"frame": {"x":350,"y":364,"w":44,"h":44},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
@@ -56,7 +56,7 @@
 },
 "block_platinum":
 {
-	"frame": {"x":276,"y":300,"w":44,"h":44},
+	"frame": {"x":396,"y":318,"w":44,"h":44},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
@@ -65,7 +65,7 @@
 },
 "block_silver":
 {
-	"frame": {"x":322,"y":300,"w":44,"h":44},
+	"frame": {"x":396,"y":364,"w":44,"h":44},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
@@ -92,7 +92,7 @@
 },
 "game_over":
 {
-	"frame": {"x":230,"y":378,"w":188,"h":38},
+	"frame": {"x":230,"y":278,"w":188,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":188,"h":38},
@@ -101,29 +101,11 @@
 },
 "instructions":
 {
-	"frame": {"x":388,"y":278,"w":118,"h":98},
+	"frame": {"x":230,"y":318,"w":118,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":98},
 	"sourceSize": {"w":118,"h":98},
-	"pivot": {"x":0,"y":0}
-},
-"numbers_big":
-{
-	"frame": {"x":228,"y":278,"w":158,"h":20},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":20},
-	"sourceSize": {"w":158,"h":20},
-	"pivot": {"x":0,"y":0}
-},
-"numbers_small":
-{
-	"frame": {"x":230,"y":418,"w":138,"h":14},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":14},
-	"sourceSize": {"w":138,"h":14},
 	"pivot": {"x":0,"y":0}
 },
 "score_pane":
@@ -149,8 +131,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":508,"h":434},
+	"size": {"w":506,"h":422},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8472979e929a31f7dc9485b643f14c04:4addc646ac2091da1fe8def83835b50c:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ffdfa090f8b59ef6c3dcd3ea93f0929e:fb35bd1df013b7b87ce74e4b5ef62ad4:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
