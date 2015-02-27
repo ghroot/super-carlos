@@ -30,15 +30,15 @@ var Blocks = Class.extend({
             var block;
             if (type == 0)
             {
-                block = new Block(this.blockX, 0, PIXI.Sprite.fromFrame("block_bronze"), 0.02, 0, 0.5);
+                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_bronze"), 0.02, 0, 1);
             }
             else if (type == 1)
             {
-                block = new Block(this.blockX, 0, PIXI.Sprite.fromFrame("block_silver"), 0.08, 0, 1);
+                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_silver"), 0.04, 0, 2.8);
             }
             else
             {
-                block = new Block(this.blockX, 0, PIXI.Sprite.fromFrame("block_gold"), 0.16, 0, 2);
+                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_gold"), 0.07, 0, 4.7);
             }
             this.blocks.push(block);
             block.sprite.anchor.x = 0.5;

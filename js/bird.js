@@ -1,8 +1,8 @@
 var Bird = GameObject.extend({
     groundY: 0,
     velocity: 0,
-    gravity: 2,
-    jumpSpeed: 30,
+    gravity: 1.8,
+    jumpSpeed: 27,
     invincible: 0,
 
     init: function(x, groundY) {
