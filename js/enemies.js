@@ -4,10 +4,11 @@ var Enemies = Class.extend({
     enemies: null,
     nextCreateFrame: 0,
 
-    init: function(canvas, enemyX, enemyY) {
+    init: function(canvas, enemyX, enemyY, variables) {
         this.canvas = canvas;
         this.enemyX = enemyX;
         this.enemyY = enemyY;
+        this.variables = variables;
         this.enemies = [];
         this.nextCreateFrame = 200;
     },
@@ -30,7 +31,7 @@ var Enemies = Class.extend({
             var sprite = PIXI.Sprite.fromFrame("block_platinum");
             sprite.anchor.x = 0.5;
             sprite.anchor.y = 0.5;
-            var enemy = new Enemy(this.enemyX, this.enemyY, sprite, -1.8, -0.1);
+            var enemy = new Enemy(this.enemyX, this.enemyY, sprite, -(parseFloat(this.variables.enemySpeed) || 1.8), -0.1);
             this.enemies.push(enemy);
             this.canvas.stage.addChild(enemy.sprite);
             this.nextCreateFrame = this.frames + 100 + Math.random() * 100;

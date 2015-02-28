@@ -2,10 +2,23 @@ var Game = Class.extend({
 
     score: 0,
     best: 0,
-    groundY: 400,
+    groundY: 0,
 
     init: function() {
+        this.parseUrlVars();
+        this.createCanvas();
+    },
+
+    createCanvas: function() {
         this.canvas = new Canvas(320, window.innerHeight, 0x70c5cf);
+    },
+
+    parseUrlVars: function() {
+        var vars = {};
+        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+            vars[key] = value;
+        });
+        this.variables = vars;
     },
 
     load: function() {
@@ -15,6 +28,8 @@ var Game = Class.extend({
     },
 
     start: function() {
+        this.groundY = parseFloat(this.variables.groundY) || 400;
+
         var sky = new PIXI.Graphics();
         sky.beginFill(0x70c5cf, 1);
         sky.drawRect(0, 0, this.canvas.width, this.canvas.height);
@@ -33,10 +48,10 @@ var Game = Class.extend({
 
         this.best = localStorage.getItem("best") || 0;
 
-        this.bird = new Bird(this.canvas.width / 2, this.groundY);
+        this.bird = new Bird(this.canvas.width / 2, this.groundY, parseFloat(this.variables.birdGravity) || 1.8, parseFloat(this.variables.birdJumpSpeed) || 27);
         this.canvas.stage.addChild(this.bird.sprite);
-        this.blocks = new Blocks(this.canvas);
-        this.enemies = new Enemies(this.canvas, this.canvas.width + 40, this.groundY - 21);
+        this.blocks = new Blocks(this.canvas, this.variables);
+        this.enemies = new Enemies(this.canvas, this.canvas.width + 40, this.groundY - 21, this.variables);
 
         this.splashState = new SplashState(this);
         this.gameState = new GameState(this);

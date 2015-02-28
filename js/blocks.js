@@ -4,8 +4,9 @@ var Blocks = Class.extend({
     blocks: null,
     nextCreateFrame: 0,
 
-    init: function(canvas) {
+    init: function(canvas, variables) {
         this.canvas = canvas;
+        this.variables = variables;
         this.blockX = canvas.width / 2;
         this.blocks = [];
         this.nextCreateFrame = 10;
@@ -30,15 +31,15 @@ var Blocks = Class.extend({
             var block;
             if (type === 0)
             {
-                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_bronze"), 0.02, 0, 1);
+                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_bronze"), parseFloat(this.variables.bronzeBlockGravity) || 0.02, 0, parseFloat(this.variables.bronzeBlockStartSpeed) || 1);
             }
             else if (type === 1)
             {
-                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_silver"), 0.04, 0, 2.8);
+                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_silver"), parseFloat(this.variables.silverBlockGravity) || 0.04, 0, parseFloat(this.variables.silverBlockStartSpeed) || 2.8);
             }
             else
             {
-                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_gold"), 0.07, 0, 4.7);
+                block = new Block(this.blockX, -20, PIXI.Sprite.fromFrame("block_gold"), parseFloat(this.variables.goldBlockGravity) || 0.07, 0, parseFloat(this.variables.goldBlockStartSpeed) || 4.7);
             }
             this.blocks.push(block);
             block.sprite.anchor.x = 0.5;
