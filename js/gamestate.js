@@ -3,6 +3,7 @@ var GameState = Class.extend({
     init: function(game) {
         this.game = game;
         this.canvas = game.canvas;
+        this.variables = game.variables;
         this.bird = game.bird;
         this.blocks = game.blocks;
         this.enemies = game.enemies;
@@ -74,7 +75,7 @@ var GameState = Class.extend({
                         enemy.sprite.alpha = 0.5;
                         enemy.gravity = 2;
                         this.bird.y = this.game.groundY - 40;
-                        this.bird.velocity = -20;
+                        this.bird.velocity = -this.bird.bounceSpeed;
                         this.game.score++;
                     } else {
                         this.game.best = Math.max(this.game.best, this.game.score);

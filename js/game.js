@@ -48,7 +48,7 @@ var Game = Class.extend({
 
         this.best = localStorage.getItem("best") || 0;
 
-        this.bird = new Bird(this.canvas.width / 2, this.groundY, parseFloat(this.variables.birdGravity) || 1.8, parseFloat(this.variables.birdJumpSpeed) || 27);
+        this.bird = new Bird(this.canvas.width / 2, this.groundY, parseFloat(this.variables.birdGravity) || 1.8, parseFloat(this.variables.birdJumpSpeed) || 27, parseFloat(this.variables.birdBounceSpeed) || 20);
         this.canvas.stage.addChild(this.bird.sprite);
         this.blocks = new Blocks(this.canvas, this.variables);
         this.enemies = new Enemies(this.canvas, this.canvas.width + 40, this.groundY - 21, this.variables);

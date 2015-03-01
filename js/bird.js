@@ -4,9 +4,10 @@ var Bird = GameObject.extend({
     velocity: 0,
     gravity: 0,
     jumpSpeed: 0,
+    bounceSpeed: 0,
     invincible: 0,
 
-    init: function(x, groundY, gravity, jumpSpeed) {
+    init: function(x, groundY, gravity, jumpSpeed, bounceSpeed) {
         var birdMovieClip = PIXI.MovieClip.fromFrames(["bird_1", "bird_2", "bird_3"]);
         birdMovieClip.anchor.x = 0.5;
         birdMovieClip.anchor.y = 0.9;
@@ -14,6 +15,7 @@ var Bird = GameObject.extend({
         this.groundY = groundY;
         this.gravity = gravity;
         this.jumpSpeed = jumpSpeed;
+        this.bounceSpeed = bounceSpeed;
     },
 
     reset: function() {
