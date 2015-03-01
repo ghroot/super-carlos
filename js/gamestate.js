@@ -49,7 +49,7 @@ var GameState = Class.extend({
                             block.rotationSpeed = -5;
                         }
                         block.velocityY = -20;
-                        this.bird.y = block.y;
+                        this.bird.y = block.y + 42;
                         this.bird.velocity = -this.bird.velocity / 4;
                         this.bird.invincible = 15;
                         this.game.score++;
@@ -74,7 +74,7 @@ var GameState = Class.extend({
                         enemy.enabled = false;
                         enemy.sprite.alpha = 0.5;
                         enemy.gravity = 2;
-                        this.bird.y = this.game.groundY - 40;
+                        this.bird.y = this.game.groundY - 42;
                         this.bird.velocity = -this.bird.bounceSpeed;
                         this.game.score++;
                     } else {
