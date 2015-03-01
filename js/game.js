@@ -1,5 +1,10 @@
 var Game = Class.extend({
 
+    paused: false,
+    slowMotion: false,
+    slowMotionCountdown: 0,
+    step: false,
+
     score: 0,
     best: 0,
     groundY: 0,
@@ -7,6 +12,30 @@ var Game = Class.extend({
     init: function() {
         this.parseUrlVars();
         this.createCanvas();
+
+        window.addEventListener("keydown", this.onKeyDown.bind(this), false);
+    },
+
+    onKeyDown: function(evt) {
+        if (evt.keyCode === 32) {
+            this.paused = !this.paused;
+            if (!this.paused) {
+                this.slowMotion = false;
+            }
+        } else if (evt.keyCode === 40) {
+            if (!this.slowMotion) {
+                this.paused = false;
+                this.slowMotion = true;
+                this.slowMotionCountdown = 5;
+            }
+        } else if (evt.keyCode === 39) {
+            this.slowMotion = false;
+            if (this.paused) {
+                this.update();
+            } else {
+                this.paused = true;
+            }
+        }
     },
 
     createCanvas: function() {
@@ -61,6 +90,17 @@ var Game = Class.extend({
 
         var self = this;
         this.canvas.animate(function() {
+            if (self.paused) {
+                return;
+            }
+            if (self.slowMotion) {
+                self.slowMotionCountdown--;
+                if (self.slowMotionCountdown === 0) {
+                    self.slowMotionCountdown = 5;
+                } else {
+                    return;
+                }
+            }
             self.update();
             TWEEN.update();
         });
