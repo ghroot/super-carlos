@@ -1,7 +1,7 @@
 var Canvas = Class.extend({
 
     init: function(width, height, color) {
-        this.canvas = document.createElement("canvas");
+        this.canvas = document.createElement(navigator.isCocoonJS ? 'screencanvas' : 'canvas');
         this.canvas.width = width;
         this.canvas.height = height;
         var scale = window.innerWidth / width;
