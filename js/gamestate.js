@@ -43,10 +43,10 @@ var GameState = Class.extend({
                         block.gravity = 2;
                         if (Math.random() <= 0.5) {
                             block.velocityX = 4 + Math.random() * 2;
-                            block.rotationSpeed = 5;
+                            block.rotationSpeed = 0.5;
                         } else {
                             block.velocityX = -4 - Math.random() * 2;
-                            block.rotationSpeed = -5;
+                            block.rotationSpeed = -0.5;
                         }
                         block.velocityY = -20;
                         this.bird.y = block.y + 42;
