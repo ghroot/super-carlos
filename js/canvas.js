@@ -20,7 +20,7 @@ var Canvas = Class.extend({
     },
 
     animate: function(loop) {
-        var rAF = (function() {
+        var requestAnimationFrame = (function() {
             return window.requestAnimationFrame    ||
                 window.webkitRequestAnimationFrame ||
                 window.mozRequestAnimationFrame    ||
@@ -35,8 +35,8 @@ var Canvas = Class.extend({
         var l = function() {
             self.renderer.render(self.stage);
             loop();
-            rAF(l, self.canvas);
+            requestAnimationFrame(l, self.canvas);
         };
-        rAF(l, this.canvas);
+        requestAnimationFrame(l, this.canvas);
     }
 });
