@@ -7,7 +7,7 @@ var Block = GameObject.extend({
     velocityY: 0,
 
     init: function(x, y, sprite, gravity, velocityX, velocityY) {
-        this._super(x, y, sprite);
+        this._super(x, y, sprite, new PIXI.Circle(0, 0, 20));
         this.gravity = gravity;
         this.velocityX = velocityX;
         this.velocityY = velocityY;

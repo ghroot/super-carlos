@@ -11,7 +11,7 @@ var Bird = GameObject.extend({
         var birdMovieClip = PIXI.MovieClip.fromFrames(["bird_1", "bird_2", "bird_3"]);
         birdMovieClip.anchor.x = 0.5;
         birdMovieClip.anchor.y = 0.9;
-        this._super(x, groundY, birdMovieClip);
+        this._super(x, groundY, birdMovieClip, new PIXI.Circle(0, -10, 14));
         this.groundY = groundY;
         this.gravity = gravity;
         this.jumpSpeed = jumpSpeed;

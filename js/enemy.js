@@ -7,7 +7,7 @@ var Enemy = GameObject.extend({
     velocityY: 0,
 
     init: function(x, y, sprite, velocityX, rotationSpeed) {
-        this._super(x, y, sprite);
+        this._super(x, y, sprite, new PIXI.Circle(0, 0, 20));
         this.rotationSpeed = rotationSpeed;
         this.velocityX = velocityX;
     },

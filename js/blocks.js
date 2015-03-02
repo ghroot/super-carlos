@@ -23,7 +23,14 @@ var Blocks = Class.extend({
 
     update: function() {
         for (var i = 0, len = this.blocks.length; i < len; i++) {
-            this.blocks[i].update();
+            var block = this.blocks[i];
+            block.update();
+            if (block.y > this.canvas.height + 100) {
+                this.canvas.stage.removeChild(block.sprite);
+                this.blocks.splice(i, 1);
+                i--;
+                len--;
+            }
         }
         this.frames++;
         if (this.frames >= this.nextCreateFrame) {

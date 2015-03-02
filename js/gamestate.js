@@ -32,62 +32,65 @@ var GameState = Class.extend({
     },
 
     checkCollisions: function() {
+        var collidedBlocks = [];
         for (var i = 0, len = this.blocks.blocks.length; i < len; i++) {
             var block = this.blocks.blocks[i];
-            if (this.bird.y - block.y <= 43) {
-                if (block.enabled) {
-                    block.y = this.bird.y - 43;
-                    if (this.bird.invincible > 0 || this.bird.velocity < 0) {
-                        block.enabled = false;
-                        block.sprite.alpha = 0.5;
-                        block.gravity = 2;
-                        if (Math.random() <= 0.5) {
-                            block.velocityX = 4 + Math.random() * 2;
-                            block.rotationSpeed = 0.5;
-                        } else {
-                            block.velocityX = -4 - Math.random() * 2;
-                            block.rotationSpeed = -0.5;
-                        }
-                        block.velocityY = -20;
-                        this.bird.y = block.y + 42;
-                        this.bird.velocity = -this.bird.velocity / 4;
-                        this.bird.invincible = 15;
-                        this.game.score++;
-                    } else {
-                        this.game.best = Math.max(this.game.best, this.game.score);
-                        localStorage.setItem("best", this.game.best);
-                        this.game.changeState(this.game.scoreState);
-                    }
-                }
-            } else if (block.y < -100) {
-                this.canvas.stage.removeChild(block.sprite);
-                this.blocks.blocks.splice(i, 1);
-                i--;
-                len--;
+            if (this.bird.collidesWith(block)) {
+                collidedBlocks.push(block);
             }
         }
+        for (i = 0, len = collidedBlocks.length; i < len; i++) {
+            this.birdCollidedWithBlock(collidedBlocks[i]);
+        }
+        var collidedEnemies = [];
         for (i = 0, len = this.enemies.enemies.length; i < len; i++) {
             var enemy = this.enemies.enemies[i];
-            if (Math.abs(this.bird.x - enemy.x) <= 36 && this.game.groundY - this.bird.y <= 40) {
-                if (enemy.enabled) {
-                    if (this.bird.velocity > 0) {
-                        enemy.enabled = false;
-                        enemy.sprite.alpha = 0.5;
-                        enemy.gravity = 2;
-                        this.bird.y = this.game.groundY - 42;
-                        this.bird.velocity = -this.bird.bounceSpeed;
-                        this.game.score++;
-                    } else {
-                        this.game.best = Math.max(this.game.best, this.game.score);
-                        localStorage.setItem("best", this.game.best);
-                        this.game.changeState(this.game.scoreState);
-                    }
+            if (this.bird.collidesWith(enemy)) {
+                collidedEnemies.push(enemy);
+            }
+        }
+        for (i = 0, len = collidedEnemies.length; i < len; i++) {
+            this.birdCollidedWithEnemy(collidedEnemies[i]);
+        }
+    },
+
+    birdCollidedWithBlock: function(block) {
+        if (block.enabled) {
+            if (this.bird.invincible > 0 || this.bird.velocity < 0) {
+                block.enabled = false;
+                block.sprite.alpha = 0.5;
+                block.gravity = 2;
+                if (Math.random() <= 0.5) {
+                    block.velocityX = 4 + Math.random() * 2;
+                    block.rotationSpeed = 0.5;
+                } else {
+                    block.velocityX = -4 - Math.random() * 2;
+                    block.rotationSpeed = -0.5;
                 }
-            } else if (enemy.x < -50 || enemy.y > this.canvas.height + 50) {
-                this.canvas.stage.removeChild(enemy.sprite);
-                this.enemies.enemies.splice(i, 1);
-                i--;
-                len--;
+                block.velocityY = -20;
+                this.bird.velocity = -this.bird.velocity / 4;
+                this.bird.invincible = 15;
+                this.game.score++;
+            } else {
+                this.game.best = Math.max(this.game.best, this.game.score);
+                localStorage.setItem("best", this.game.best);
+                this.game.changeState(this.game.scoreState);
+            }
+        }
+    },
+
+    birdCollidedWithEnemy: function(enemy) {
+        if (enemy.enabled) {
+            if (this.bird.velocity > 0) {
+                enemy.enabled = false;
+                enemy.sprite.alpha = 0.5;
+                enemy.gravity = 2;
+                this.bird.velocity = -this.bird.bounceSpeed;
+                this.game.score++;
+            } else {
+                this.game.best = Math.max(this.game.best, this.game.score);
+                localStorage.setItem("best", this.game.best);
+                this.game.changeState(this.game.scoreState);
             }
         }
     },

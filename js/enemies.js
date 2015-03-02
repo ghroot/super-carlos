@@ -24,7 +24,14 @@ var Enemies = Class.extend({
 
     update: function() {
         for (var i = 0, len = this.enemies.length; i < len; i++) {
-            this.enemies[i].update();
+            var enemy = this.enemies[i];
+            enemy.update();
+            if (enemy.y > this.canvas.height + 100 || enemy.x < 100) {
+                this.canvas.stage.removeChild(enemy.sprite);
+                this.enemies.splice(i, 1);
+                i--;
+                len--;
+            }
         }
         this.frames++;
         if (this.frames >= this.nextCreateFrame) {
