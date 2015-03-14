@@ -11,7 +11,6 @@ var ScriptSystem = KOMP.System.extend({
         this.nodeList.nodeRemoved.remove(this.onNodeRemoved);
     },
     onNodeAdded: function(node) {
-        console.log('onNodeAdded');
         this.startScripts(node);
     },
     onNodeRemoved: function(node) {
