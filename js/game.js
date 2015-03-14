@@ -87,7 +87,7 @@ var Game = Class.extend({
     },
 
     createWorld: function() {
-        this.creator = new Creator(this.config);
+        this.creator = new Creator(this.config, this.canvas);
 
         this.world = new KOMP.World();
         this.stateMachine = new KOMP.WorldStateMachine(this.world);
@@ -96,8 +96,14 @@ var Game = Class.extend({
         this.world.addSystem(new ControlSystem(), 2);
         this.world.addSystem(new PhysicsSystem(), 3);
         this.world.addSystem(new BlockSpawningSystem(this.creator, this.canvas), 4);
-        this.world.addSystem(new ScriptSystem(), 5);
+        this.world.addSystem(new CollisionSystem([
+            new BirdWithGroundCollisionHandler(),
+            new BirdWithBlockCollisionHandler(this.world)
+        ]), 5);
+        this.world.addSystem(new ScriptSystem(), 6);
         this.world.addSystem(new DisplaySystem(this.canvas.stage), 20);
+
+        this.world.addEntity(this.creator.createGround(this.config.groundY));
 
         var bird = this.creator.createBird(this.canvas.width / 2, this.config.groundY);
         this.world.addEntity(bird);
