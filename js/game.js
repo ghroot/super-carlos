@@ -1,5 +1,7 @@
 var Game = Class.extend({
 
+    world: null,
+
     paused: false,
     slowMotion: false,
     slowMotionCountdown: 0,
@@ -7,10 +9,9 @@ var Game = Class.extend({
 
     score: 0,
     best: 0,
-    groundY: 0,
 
     init: function() {
-        this.parseUrlVars();
+        this.parseConfig();
         this.createCanvas();
 
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
@@ -42,12 +43,13 @@ var Game = Class.extend({
         this.canvas = new Canvas(320, window.innerHeight, 0x70c5cf);
     },
 
-    parseUrlVars: function() {
+    parseConfig: function() {
         var vars = {};
         window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
             vars[key] = value;
         });
-        this.variables = vars;
+        this.config = {};
+        this.config.groundY = parseFloat(vars.groundY) || 400;
     },
 
     load: function() {
@@ -57,6 +59,58 @@ var Game = Class.extend({
     },
 
     start: function() {
+        this.createBackDrop();
+        this.createWorld();
+        this.startUpdating();
+    },
+
+    createBackDrop: function() {
+        var sky = new PIXI.Graphics();
+        sky.beginFill(0x70c5cf, 1);
+        sky.drawRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvas.stage.addChild(sky);
+
+        var backgroundTexture = PIXI.Texture.fromFrame("background");
+        var background = new PIXI.TilingSprite(backgroundTexture, this.canvas.width, backgroundTexture.height);
+        background.anchor.y = 1;
+        background.y = this.config.groundY;
+        this.canvas.stage.addChild(background);
+
+        var groundTexture = PIXI.Texture.fromFrame("foreground");
+        var ground = new PIXI.TilingSprite(groundTexture, this.canvas.width, groundTexture.height);
+        ground.y = this.config.groundY;
+        this.canvas.stage.addChild(ground);
+    },
+
+    createWorld: function() {
+        this.creator = new Creator(this.config);
+
+        this.world = new KOMP.World();
+        this.stateMachine = new KOMP.WorldStateMachine(this.world);
+        this.world.addSystem(new InputSystem(this.canvas.stage), 1);
+
+        var testState = this.stateMachine.createState('test');
+        testState.addSystem(new DisplaySystem(this.canvas.stage), 2);
+
+        this.stateMachine.changeState('test');
+
+        var bird = this.creator.createBird(this.canvas.width / 2, this.config.groundY);
+        this.world.addEntity(bird);
+    },
+
+    startUpdating: function() {
+        var self = this;
+        this.canvas.animate(function() {
+            self.update();
+        });
+    },
+
+    update: function() {
+        this.world.update(1 / 60);
+        TWEEN.update();
+    },
+
+    startOld: function() {
         this.groundY = parseFloat(this.variables.groundY) || 400;
 
         var sky = new PIXI.Graphics();
@@ -114,7 +168,7 @@ var Game = Class.extend({
         this.state.enter();
     },
 
-    update: function() {
+    updateOld: function() {
         this.state.update();
 
         for (var i = 0; i < this.enemies.enemies.length; i++) {
