@@ -45,11 +45,15 @@ var Game = Class.extend({
 
     parseConfig: function() {
         var vars = {};
-        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-            vars[key] = value;
-        });
+        if (window) {
+            window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+                vars[key] = value;
+            });
+        }
         this.config = {};
-        this.config.groundY = parseFloat(vars.groundY) || 400;
+        this.config.groundY = parseInt(vars.groundY) || 400;
+        this.config.birdJumpSpeed = parseFloat(vars.birdJumpSpeed) || 27;
+        this.config.birdGravity = parseFloat(vars.birdGravity) || 1.8;
     },
 
     load: function() {
@@ -87,12 +91,13 @@ var Game = Class.extend({
 
         this.world = new KOMP.World();
         this.stateMachine = new KOMP.WorldStateMachine(this.world);
+
         this.world.addSystem(new InputSystem(this.canvas.stage), 1);
-
-        var testState = this.stateMachine.createState('test');
-        testState.addSystem(new DisplaySystem(this.canvas.stage), 2);
-
-        this.stateMachine.changeState('test');
+        this.world.addSystem(new ControlSystem(), 2);
+        this.world.addSystem(new PhysicsSystem(), 3);
+        this.world.addSystem(new BlockSpawningSystem(this.creator, this.canvas), 4);
+        this.world.addSystem(new ScriptSystem(), 5);
+        this.world.addSystem(new DisplaySystem(this.canvas.stage), 20);
 
         var bird = this.creator.createBird(this.canvas.width / 2, this.config.groundY);
         this.world.addEntity(bird);
