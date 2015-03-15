@@ -13,14 +13,14 @@ var Creator = Class.extend({
         return entity;
     },
 
-    createBird: function(x, y) {
+    createBird: function() {
         var entity = new KOMP.Entity();
 
         var stateMachine = new KOMP.EntityStateMachine(entity);
 
         entity.addComponent(new InputComponent());
-        entity.addComponent(new TransformComponent(x, y, 0));
-        entity.addComponent(new CollisionComponent('bird', -8, 0, 16, 16));
+        entity.addComponent(new TransformComponent(this.canvas.width / 2, this.config.groundY + 2, 0));
+        entity.addComponent(new CollisionComponent('bird', -8, -20, 16, 18));
         entity.addComponent(new StateComponent(stateMachine));
 
         var idleState = stateMachine.createState('idle');
@@ -51,15 +51,16 @@ var Creator = Class.extend({
         var stateMachine = new KOMP.EntityStateMachine(entity);
 
         entity.addComponent(new TransformComponent(x, y, 0));
-        entity.addComponent(new CollisionComponent('block', -8, -8, 16, 16));
+        entity.addComponent(new CollisionComponent('block', -20, -20, 40, 40));
         entity.addComponent(new StateComponent(stateMachine));
 
-        var fallingState = stateMachine.createState('falling');
-        fallingState.addComponent(new PhysicsComponent(gravity));
         var blockSprite = PIXI.Sprite.fromFrame('block_bronze');
         blockSprite.anchor.x = 0.5;
         blockSprite.anchor.y = 0.5;
-        fallingState.addComponent(new DisplayComponent(blockSprite));
+        entity.addComponent(new DisplayComponent(blockSprite));
+
+        var fallingState = stateMachine.createState('falling');
+        fallingState.addComponent(new PhysicsComponent(gravity));
 
         stateMachine.changeState('falling');
 
