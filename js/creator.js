@@ -9,6 +9,9 @@ var Creator = Class.extend({
         entity.addComponent(new TransformComponent(0, groundY, 0));
         entity.addComponent(new PhysicsComponent(0));
         entity.addComponent(new CollisionComponent('ground', 0, 0, this.canvas.width, this.canvas.height - groundY));
+        var groundTexture = PIXI.Texture.fromFrame("foreground");
+        var groundSprite = new PIXI.TilingSprite(groundTexture, this.canvas.width, groundTexture.height);
+        entity.addComponent(new DisplayComponent(groundSprite));
         entity.addComponent(new StateComponent());
         return entity;
     },
@@ -39,6 +42,21 @@ var Creator = Class.extend({
         jumpingBirdSprite.anchor.x = 0.5;
         jumpingBirdSprite.anchor.y = 0.9;
         jumpingState.addComponent(new DisplayComponent(jumpingBirdSprite));
+        jumpingState.addComponent(new CountdownComponent(0.25, 'falling'));
+
+        var fallingState = stateMachine.createState('falling');
+        fallingState.addComponent(physicsComponent);
+        var fallingBirdSprite = PIXI.Sprite.fromFrame('bird_1');
+        fallingBirdSprite.anchor.x = 0.5;
+        fallingBirdSprite.anchor.y = 0.9;
+        fallingState.addComponent(new DisplayComponent(fallingBirdSprite));
+
+        var bashState = stateMachine.createState('bash');
+        bashState.addComponent(physicsComponent);
+        bashState.addComponent(new ScriptComponent(
+            new SetVelocityScript(physicsComponent, {x: 0, y: 5})));
+        bashState.addComponent(new DisplayComponent(jumpingBirdSprite));
+        bashState.addComponent(new CountdownComponent(0, 'falling'));
 
         stateMachine.changeState('idle');
 

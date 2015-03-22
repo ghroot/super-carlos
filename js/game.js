@@ -84,11 +84,6 @@ var Game = Class.extend({
         background.y = this.config.groundY;
         this.canvas.stage.addChild(background);
 
-        var groundTexture = PIXI.Texture.fromFrame("foreground");
-        var ground = new PIXI.TilingSprite(groundTexture, this.canvas.width, groundTexture.height);
-        ground.y = this.config.groundY;
-        this.canvas.stage.addChild(ground);
-
         this.worldContainer = new PIXI.DisplayObjectContainer();
         this.canvas.stage.addChild(this.worldContainer);
 
@@ -98,21 +93,34 @@ var Game = Class.extend({
 
     createWorld: function() {
         this.creator = new Creator(this.config, this.canvas);
+        this.session = {
+            gameOver: false
+        };
 
         this.world = new KOMP.World();
         this.stateMachine = new KOMP.WorldStateMachine(this.world);
 
-        this.world.addSystem(new InputSystem(this.canvas.stage), 1);
-        this.world.addSystem(new ControlSystem(), 2);
-        this.world.addSystem(new PhysicsSystem(), 3);
-        this.world.addSystem(new BlockSpawningSystem(this.creator, this.canvas), 4);
-        this.world.addSystem(new CollisionSystem([
+        var splashState = this.stateMachine.createState('splash');
+
+        var playingState = this.stateMachine.createState('playing');
+        playingState.addSystem(new JumpControlSystem(), 2);
+        playingState.addSystem(new PhysicsSystem(), 3);
+        playingState.addSystem(new BlockSpawningSystem(this.creator, this.canvas), 4);
+        playingState.addSystem(new CollisionSystem([
             new BirdWithGroundCollisionHandler(),
-            new BirdWithBlockCollisionHandler(this.world)
+            new BirdWithBlockCollisionHandler(this.world, this.session)
         ]), 5);
+        playingState.addSystem(new PlayingStateEndingSystem(this.stateMachine, this.session));
+
+        var scoreState = this.stateMachine.createState('score');
+
+        this.world.addSystem(new InputSystem(this.canvas.stage), 1);
         this.world.addSystem(new ScriptSystem(), 6);
+        this.world.addSystem(new CountdownSystem(), 7);
         this.world.addSystem(new DisplaySystem(this.worldContainer), 20);
-        //this.world.addSystem(new CollisionDisplaySystem(this.debugContainer), 20);
+        this.world.addSystem(new CollisionDisplaySystem(this.debugContainer), 20);
+
+        this.stateMachine.changeState('playing');
 
         this.world.addEntity(this.creator.createGround(this.config.groundY));
 

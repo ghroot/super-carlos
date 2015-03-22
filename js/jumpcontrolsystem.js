@@ -1,4 +1,4 @@
-var ControlSystem = KOMP.System.extend({
+var JumpControlSystem = KOMP.System.extend({
     init: function() {
     },
     addedToWorld: function() {
